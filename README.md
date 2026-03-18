@@ -234,3 +234,9 @@ Teacher weights used during KD: `rahu12345/teacher/best.pt` (Kaggle dataset)
 If you use this project, please cite the datasets:
 - Cotton-Weed-12: Kaggle dataset by `jawadulkarim117`
 - MH-Weed16: Kaggle dataset by `sayalis069`
+
+## Authors
+
+**Rushi Kolla**
+- GitHub: [@RUSHI-KOLLA](https://github.com/RUSHI-KOLLA)
+- Email: kollarushi2006@gmail.com
