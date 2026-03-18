@@ -8,11 +8,11 @@ A deep learning pipeline that compresses a high-accuracy YOLOv8l weed detector i
 
 ## Results
 
-| Model | mAP50 | mAP50-95 | Params | Notes |
+| Model | mAP50 |FPS | Notes |
 |---|---|---|---|---|
-| Teacher (YOLOv8l) | 0.792 | 0.603 | ~43M | Frozen during KD |
-| Student FP32 (YOLOv8s) | ~0.75+ | — | ~11M | After KD training |
-| Student INT8 | — | — | ~3MB | Post-training quantization |
+| Teacher (YOLOv8l) | ~0.7466 | ~22 FPS | Frozen during KD |
+| Student + KD | ~0.7881 | ~96 FPS | After KD training |
+| Student + KD(TRT-FP16) | ~0.7893| ~231 FPS | Post-training quantization |
 
 ---
 
