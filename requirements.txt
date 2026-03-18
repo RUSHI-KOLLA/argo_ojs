@@ -1,0 +1,23 @@
+# argo_ojs — Requirements
+# Tested on Kaggle (Python 3.10, CUDA 12.x)
+
+# Deep Learning
+torch>=2.1.0
+torchvision>=0.16.0
+
+# YOLO
+ultralytics==8.4.21
+
+# Computer Vision
+opencv-python-headless>=4.8.0
+albumentations==1.4.18
+
+# Data & Utils
+numpy>=1.24.0
+pyyaml>=6.0
+matplotlib>=3.7.0
+tqdm>=4.65.0
+
+# Notebook support
+jupyter>=1.0.0
+ipykernel>=6.0.0

@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environments
+.env
+.venv
+venv/
+env/
+
+# Outputs & weights (large files)
+outputs/
+!outputs/.gitkeep
+*.pt
+*.pth
+*.onnx
+
+# Merged dataset (generated, not committed)
+merged/
+
+# Logs
+*.log
+run.log
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Kaggle
+/kaggle/

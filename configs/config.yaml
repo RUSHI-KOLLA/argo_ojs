@@ -1,0 +1,127 @@
+# ================================================================
+# argo_ojs — Main Project Config
+# Weed Detection via Knowledge Distillation (YOLOv8l → YOLOv8s)
+# ================================================================
+
+seed: 42
+
+# ----------------------------------------------------------------
+# Data Paths (update for your environment)
+# ----------------------------------------------------------------
+data:
+  cotton_path: /kaggle/input/datasets/jawadulkarim117/cotton-weed-12-class
+  mhweed_path: /kaggle/input/datasets/sayalis069/mh-weed16/MH-Weed16An Indian Multiclass Annotated Weed Dataset for Computer Vision Tasks/MH-Weed16
+  work_dir: /kaggle/working
+  img_size: 640
+  batch_size: 16
+  num_workers: 4
+
+# ----------------------------------------------------------------
+# Class Configuration
+# ----------------------------------------------------------------
+classes:
+  nc: 19  # Final class count after merging rare classes
+  rare_threshold: 400  # Classes with fewer samples get merged → OtherWeed
+  rare_classes: [18, 19, 23, 25, 26, 27]
+  additional_rare: [11, 21, 22]
+  merge_target: 18  # OtherWeed class index
+  empty_classes: [19]  # Removed after merge (Little Mallow)
+
+# ----------------------------------------------------------------
+# Teacher Model (YOLOv8l)
+# ----------------------------------------------------------------
+teacher:
+  weights: /kaggle/input/datasets/rahu12345/teacher/best.pt
+  arch: yolov8l
+  epochs: 150
+  patience: 40
+  batch: 8
+  hook_layers: [4, 6, 9]
+  # Reported performance
+  map50: 0.792
+  map50_95: 0.603
+
+# ----------------------------------------------------------------
+# Student Model (YOLOv8s)
+# ----------------------------------------------------------------
+student:
+  weights: yolov8s.pt
+  arch: yolov8s
+  epochs: 120
+  patience: 30
+  batch: 16
+  save_every: 10
+  check_every: 10
+
+# ----------------------------------------------------------------
+# Knowledge Distillation
+# ----------------------------------------------------------------
+kd:
+  temperature: 3.0
+  alpha: 0.5   # Detection loss weight
+  beta: 0.3    # Feature distillation loss weight
+  gamma: 0.2   # KL soft-label loss weight
+  # alpha + beta + gamma must equal 1.0
+
+# ----------------------------------------------------------------
+# Optimizer & Scheduler
+# ----------------------------------------------------------------
+optimizer:
+  type: AdamW
+  lr: 0.001
+  weight_decay: 0.0001
+  adapter_lr_multiplier: 2.0  # Adapters learn 2x faster
+  scheduler: CosineAnnealingLR
+
+# ----------------------------------------------------------------
+# YOLO Training Augmentations
+# ----------------------------------------------------------------
+augmentation:
+  mosaic: 1.0
+  mixup: 0.15
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  degrees: 10.0
+  translate: 0.1
+  scale: 0.5
+  shear: 2.0
+  fliplr: 0.5
+  flipud: 0.0
+  close_mosaic: 15
+
+# ----------------------------------------------------------------
+# Loss Hyperparameters
+# ----------------------------------------------------------------
+loss:
+  box: 7.5
+  cls: 0.5
+  dfl: 1.5
+
+# ----------------------------------------------------------------
+# LR Schedule
+# ----------------------------------------------------------------
+lr:
+  lr0: 0.01
+  lrf: 0.01
+  warmup_epochs: 5
+  warmup_momentum: 0.8
+  warmup_bias_lr: 0.1
+  cos_lr: true
+
+# ----------------------------------------------------------------
+# Data Cleaning
+# ----------------------------------------------------------------
+cleaning:
+  fake_box_area_threshold: 0.90   # Boxes covering >90% of image = fake
+  fake_box_wh_threshold: 0.95     # Both w and h > 95% = fake
+  oversample_target: 750          # Minimum samples per class after oversampling
+
+# ----------------------------------------------------------------
+# Misc
+# ----------------------------------------------------------------
+misc:
+  msad_threshold: 0.75
+  low_ap_warn: 0.50
+  amp: true          # Mixed precision training
+  cache: disk
