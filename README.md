@@ -1,6 +1,6 @@
 # argo_ojs — Weed Detection via Knowledge Distillation
 
-> **YOLOv8l Teacher → YOLOv8s Student** | 19-class weed detection | INT8 quantization
+> **YOLOv8l Teacher → YOLOv8s Student** | 19-class weed detection | FP16 quantization
 
 A deep learning pipeline that compresses a high-accuracy YOLOv8l weed detector into a lightweight YOLOv8s model using Knowledge Distillation (KD), while preserving detection quality for edge deployment.
 
@@ -8,11 +8,14 @@ A deep learning pipeline that compresses a high-accuracy YOLOv8l weed detector i
 
 ## Results
 
-| Model | mAP50 |FPS | Notes |
-|---|---|---|---|---|
-| Teacher (YOLOv8l) | ~0.7466 | ~22 FPS | Frozen during KD |
-| Student + KD | ~0.7881 | ~96 FPS | After KD training |
-| Student + KD(TRT-FP16) | ~0.7893| ~231 FPS | Post-training quantization |
+| Model | mAP50 | FPS | Notes |
+| --- | --- | --- | --- |
+| Teacher (YOLOv8l) | 0.7466 | ~22 FPS | Frozen during KD; FP32 |
+| Student + KD | **0.7881** | ~96 FPS | After KD training; FP32 |
+| Student + KD (TRT-FP16) | **0.7893** | ~231 FPS | TensorRT FP16 post-training quantization |
+
+<img width="2684" height="755" alt="model_comparison" src="https://github.com/user-attachments/assets/2bd588e3-f5b5-46b6-b38c-86e6d4cca3f0" />
+
 
 ---
 
