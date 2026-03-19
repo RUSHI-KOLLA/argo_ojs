@@ -47,7 +47,7 @@ teacher:
 student:
   weights: yolov8s.pt
   arch: yolov8s
-  epochs: 120
+  epochs: 80       # From kd-book.ipynb (kd_epochs: 80)
   patience: 30
   batch: 16
   save_every: 10
@@ -57,20 +57,20 @@ student:
 # Knowledge Distillation
 # ----------------------------------------------------------------
 kd:
-  temperature: 3.0
-  alpha: 0.5   # Detection loss weight
-  beta: 0.3    # Feature distillation loss weight
-  gamma: 0.2   # KL soft-label loss weight
-  # alpha + beta + gamma must equal 1.0
+  temperature: 3.0   # Defined but unused (KL loss disabled)
+  alpha: 1.0   # Detection loss weight
+  beta: 0.05   # Feature distillation loss weight
+  gamma: 0.0   # KL soft-label loss — DISABLED (returns 0.0)
+  # Only L_det and L_feat are active in training
 
 # ----------------------------------------------------------------
 # Optimizer & Scheduler
 # ----------------------------------------------------------------
 optimizer:
   type: AdamW
-  lr: 0.001
+  lr: 0.0001         # kd_lr from kd-book.ipynb (1e-4)
   weight_decay: 0.0001
-  adapter_lr_multiplier: 2.0  # Adapters learn 2x faster
+  adapter_lr_multiplier: 2.0  # Adapters learn 2x faster (2e-4)
   scheduler: CosineAnnealingLR
 
 # ----------------------------------------------------------------
@@ -115,7 +115,7 @@ lr:
 cleaning:
   fake_box_area_threshold: 0.90   # Boxes covering >90% of image = fake
   fake_box_wh_threshold: 0.95     # Both w and h > 95% = fake
-  oversample_target: 750          # Minimum samples per class after oversampling
+  oversample_target: 500          # Minimum samples per class (TARGET=500 in notebooks)
 
 # ----------------------------------------------------------------
 # Misc
